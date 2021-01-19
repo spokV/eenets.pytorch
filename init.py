@@ -20,7 +20,7 @@ from resnet import resnet20, resnet32, resnet44, resnet56, resnet110
 from flops_counter import flops_to_string, params_to_string
 #pylint: enable=W0611
 
-def initializer():
+def initializer(local_args):
     """initializer of the program.
 
     This parses and extracts all training and testing settings.
@@ -87,9 +87,15 @@ def initializer():
     parser.add_argument('--hist-file',    help=argparse.SUPPRESS)
     parser.add_argument('--num-classes',  help=argparse.SUPPRESS, default=10)
     parser.add_argument('--input-shape',  help=argparse.SUPPRESS, default=(3, 32, 32))
-    #pylint: enable=C0326, C0330
-    args = parser.parse_args()
-
+    parser.add_argument('--plot-history', action='store_true', default=False,
+                        help='plot history on matplotlib')
+    parser.add_argument('--ee-disable', action='store_true', default=False,
+                        help='disable branches training')
+    parser.add_argument('--use-main-targets', action='store_true', default=False,
+                        help='use main targets for train branches')
+    
+    args = parser.parse_args(local_args)
+    
     if args.dataset == 'mnist':
         args.input_shape = (1, 28, 28)
 
@@ -107,6 +113,7 @@ def initializer():
     torch.manual_seed(args.seed)
     use_cuda = not args.no_cuda and torch.cuda.is_available()
     args.device = torch.device('cuda' if use_cuda else 'cpu')
+    print('use cuda: ', use_cuda, ' device: ', args.device)
 
     # model configurations
     kwargs = vars(args)

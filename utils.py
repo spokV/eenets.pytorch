@@ -130,14 +130,14 @@ def plot_history(args):
     yticks = data[['train_loss', 'train_loss_sem', 'val_loss', 'val_loss_sem']]
     labels = ('epochs', 'loss')
     filename = args.results_dir+'/loss_figure.png'
-    plot_chart(title, xticks, yticks, labels, filename)
+    plot_chart(title, xticks, yticks, labels, filename, args.plot_history)
 
     title = 'val. accuracy and cost rate of '+args.model+' on '+args.dataset
     xticks = data[['epoch']]
     yticks = data[['acc', 'acc_sem', 'cost', 'cost_sem']]
     labels = ('epochs', 'percent')
     filename = args.results_dir+'/acc_cost_figure.png'
-    plot_chart(title, xticks, yticks, labels, filename)
+    plot_chart(title, xticks, yticks, labels, filename, args.plot_history)
 
     data = data.sort_values(by='flop')
     title = 'val. accuracy vs flops of '+args.model+' on '+args.dataset
@@ -145,10 +145,10 @@ def plot_history(args):
     yticks = data[['acc', 'acc_sem']]
     labels = ('flops', 'accuracy')
     filename = args.results_dir+'/acc_vs_flop_figure.png'
-    plot_chart(title, xticks, yticks, labels, filename)
+    plot_chart(title, xticks, yticks, labels, filename, args.plot_history)
 
 
-def plot_chart(title, xticks, yticks, labels, filename):
+def plot_chart(title, xticks, yticks, labels, filename, show):
     """draw chart
 
     Arguments are
@@ -194,6 +194,8 @@ def plot_chart(title, xticks, yticks, labels, filename):
     plt.ylabel(ylabel)
     plt.legend(legend, loc='best')
     plt.savefig(filename)
+    if show:
+        plt.show()
     plt.clf()
     print('The figure is plotted under \'{}\''.format(filename))
 

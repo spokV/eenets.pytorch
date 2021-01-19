@@ -5,16 +5,18 @@ from torch import nn
 
 __all__ = ['CustomEENet', 'eenet8']
 
+
 class CustomEENet(nn.Module):
     """Custom EENet-8 model.
 
     This model (EENet-8) consists of constant two early-exit blocks.
     and it is a very small CNN having 2-8 filters in its layers.
     """
-    def __init__(self, input_shape, num_classes, starting_filter):
+    def __init__(self, input_shape, num_classes, starting_filter, disable_ee_forward):
         super(CustomEENet, self).__init__()
         channel, _, _ = input_shape
         self.filter = starting_filter
+        self.disable_ee_forward = disable_ee_forward
         self.initblock = nn.Sequential(
             nn.Conv2d(channel, self.filter, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(self.filter),
@@ -44,6 +46,9 @@ class CustomEENet(nn.Module):
         self.complexity = [(546, 137), (1844, 407), (6982, 1490)]
         if self.filter == 4:
             self.complexity = [(1792, 407), (6608, 1395), (25814, 5332)]
+    
+    def set_ee_disable(self, disable):
+        self.disable_ee_forward = disable
 
     def get_basic_block(self, expansion):
         """get basic block as nn.Sequential"""
@@ -76,21 +81,29 @@ class CustomEENet(nn.Module):
         residual = self.basicblock1(x)
         x = residual + x
 
-        e_x = self.pool(x).view(-1, self.filter)
-        pred_0 = self.exit0_classifier(e_x)
-        conf_0 = self.exit0_confidence(e_x)
-        if (not self.training and conf_0.item() > 0.5):
-            return pred_0, 0, cost_0
+        if not self.disable_ee_forward:
+            e_x = self.pool(x).view(-1, self.filter)
+            pred_0 = self.exit0_classifier(e_x)
+            conf_0 = self.exit0_confidence(e_x)
+            if (not self.training and conf_0.item() > 0.5):
+                return pred_0, 0, cost_0
+        else:
+            pred_0 = 0
+            conf_0 = 0
 
         residual = self.basicblock2(x)
         x = self.conv2d_6(x)
         x = residual + x
 
-        e_x = self.pool(x).view(-1, self.filter*2)
-        pred_1 = self.exit1_classifier(e_x)
-        conf_1 = self.exit1_confidence(e_x)
-        if (not self.training and conf_1.item() > 0.5):
-            return pred_1, 1, cost_1
+        if not self.disable_ee_forward:
+            e_x = self.pool(x).view(-1, self.filter*2)
+            pred_1 = self.exit1_classifier(e_x)
+            conf_1 = self.exit1_confidence(e_x)
+            if (not self.training and conf_1.item() > 0.5):
+                return pred_1, 1, cost_1
+        else:
+            pred_1 = 0
+            conf_1 = 0
 
         residual = self.basicblock3(x)
         x = self.conv2d_9(x)
@@ -105,10 +118,10 @@ class CustomEENet(nn.Module):
         return (pred_0, pred_1, pred_2), (conf_0, conf_1), (cost_0, cost_1)
 
 
-def eenet8(input_shape, num_classes, filters=2, **kwargs):
+def eenet8(input_shape, num_classes, filters=2, ee_disable=False, **kwargs):
     """EENet-8 model.
 
     This creates an instance of Custom EENet-8 with given starting filter number.
     """
     print('Note that EENet-8 has constant two early-exit blocks regardless of what num_ee is!')
-    return CustomEENet(input_shape, num_classes, filters)
+    return CustomEENet(input_shape, num_classes, filters, ee_disable)
