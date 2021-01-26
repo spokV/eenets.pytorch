@@ -21,7 +21,7 @@ local_args_pre = \
     ['--dataset', 'cifar10',
       '--model', 'eenet20',
       '--epochs', '100',
-      '--num-ee', '2',
+      '--num-ee', '3',
       '--filters', '4',
       '--lambda-coef', '0.5',
       '--optimizer', 'Adam',
@@ -34,11 +34,11 @@ local_args_post = \
     ['--dataset', 'cifar10',
       '--model', 'eenet20',
       '--epochs', '100',
-      '--num-ee', '2',
+      '--num-ee', '3',
       '--filters', '4',
       '--lambda-coef', '0.5',
       '--optimizer', 'Adam',
-      '--load-model', 'models/cifar10/eenet20/ee2_fine_empty_branches/model.pt',
+      '--load-model', 'models/cifar10/eenet20/ee3_fine_empty_branches/model.pt',
       '--use-main-targets'
       # '--ee-disable', 'False'
       # '--plot-history',
@@ -212,20 +212,25 @@ def main():
 
     if post_train == True:
         model_post, optimizer_post, args_post = initializer(local_args_post)
-        model_post.set_ee_disable(False)
-        model_post.initblock.requires_grad_(False)
-        model_post.basicblock1.requires_grad_(False)
-        model_post.basicblock2.requires_grad_(False)
-        model_post.basicblock3.requires_grad_(False)
-        model_post.finalblock.requires_grad_(False)
-        model_post.classifier.requires_grad_(False)
-        model_post.conv2d_6.requires_grad_(False)
-        model_post.conv2d_9.requires_grad_(False)
-
+        if args_post.model == 'eenet8':
+            model_post.set_ee_disable(False)
+            model_post.initblock.requires_grad_(False)
+            model_post.basicblock1.requires_grad_(False)
+            model_post.basicblock2.requires_grad_(False)
+            model_post.basicblock3.requires_grad_(False)
+            model_post.finalblock.requires_grad_(False)
+            model_post.classifier.requires_grad_(False)
+            model_post.conv2d_6.requires_grad_(False)
+            model_post.conv2d_9.requires_grad_(False)
+        else:
+            model_post.set_ee_disable(False)
+            for idx, exitblock in enumerate(model_post.exits):
+                model_post.stages[idx].requires_grad_(False)
+            model_post.stages[-1].requires_grad_(False)
+            model_post.fully_connected.requires_grad_(False)
+    
         train_loader_post, test_loader_post = load_dataset(args_post)
         run(model_post, None, optimizer_post, args_post, train_loader_post, test_loader_post)
-
-
 
 if __name__ == '__main__':
     main()
