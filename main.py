@@ -31,19 +31,22 @@ local_args_pre = \
       ]
 
 local_args_post = \
-    ['--dataset', 'mnist',
-      '--model', 'eenet8',
-      '--epochs', '20',
+    ['--dataset', 'cifar10',
+      '--model', 'eenet20',
+      '--epochs', '100',
       '--num-ee', '2',
       '--filters', '4',
-      '--lambda-coef', '2.0',
+      '--lambda-coef', '0.5',
       '--optimizer', 'Adam',
-      '--load-model', '../models/mnist/eenet8_empty_branches/model.pt',
+      '--load-model', 'models/cifar10/eenet20/ee2_fine_empty_branches/model.pt',
       '--use-main-targets'
       # '--ee-disable', 'False'
       # '--plot-history',
       # '--no-save-model'
       ]
+
+post_train = True
+pre_train = False
 
 def train(args, model, model_pre, train_loader, optimizer):
     """train the model.
@@ -161,7 +164,7 @@ def validate(args, model, val_loader):
         result[key] = round(np.mean(value), 4)
         result[key+'_sem'] = round(stats.sem(value), 2)
     return result
-    
+
 def run(model, model_pre, optimizer, args, train_loader, test_loader):
     # model, optimizer, args = initializer(local_args)
     # train_loader, test_loader = load_dataset(args)
@@ -202,9 +205,25 @@ def main():
 
     The function loads the dataset and calls training and validation functions.
     """
-    model_pre, optimizer_pre, args_pre = initializer(local_args_pre)
-    train_loader_pre, test_loader_pre = load_dataset(args_pre)
-    run(model_pre, None, optimizer_pre, args_pre, train_loader_pre, test_loader_pre)
+    if pre_train == True:
+        model_pre, optimizer_pre, args_pre = initializer(local_args_pre)
+        train_loader_pre, test_loader_pre = load_dataset(args_pre)
+        run(model_pre, None, optimizer_pre, args_pre, train_loader_pre, test_loader_pre)
+
+    if post_train == True:
+        model_post, optimizer_post, args_post = initializer(local_args_post)
+        model_post.set_ee_disable(False)
+        model_post.initblock.requires_grad_(False)
+        model_post.basicblock1.requires_grad_(False)
+        model_post.basicblock2.requires_grad_(False)
+        model_post.basicblock3.requires_grad_(False)
+        model_post.finalblock.requires_grad_(False)
+        model_post.classifier.requires_grad_(False)
+        model_post.conv2d_6.requires_grad_(False)
+        model_post.conv2d_9.requires_grad_(False)
+
+        train_loader_post, test_loader_post = load_dataset(args_post)
+        run(model_post, None, optimizer_post, args_post, train_loader_post, test_loader_post)
 
 
 
