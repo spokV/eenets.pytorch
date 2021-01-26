@@ -155,8 +155,10 @@ class EENet(nn.Module):
         The nn.Module.
     """
     def __init__(self, is_6n2model, block, total_layers, num_ee, distribution, num_classes,
-                 input_shape, exit_type, repetitions=None, zero_init_residual=False, **kwargs):
+                 input_shape, exit_type, repetitions=None, zero_init_residual=False, disable_ee_forward=False, 
+                 **kwargs):
         super(EENet, self).__init__()
+        self.disable_ee_forward = disable_ee_forward
         if is_6n2model:
             self.inplanes = 16
             repetitions = [(total_layers-2) // 6]*3
@@ -227,6 +229,8 @@ class EENet(nn.Module):
         self.complexity.append((total_flops, total_params))
         self.parameter_initializer(zero_init_residual)
 
+    def set_ee_disable(self, disable):
+        self.disable_ee_forward = disable
 
     def get_complexity(self, model):
         """get model complexity in terms of FLOPs and the number of parameters"""
@@ -311,9 +315,13 @@ class EENet(nn.Module):
 
         for idx, exitblock in enumerate(self.exits):
             x = self.stages[idx](x)
-            pred, conf = exitblock(x)
-            if not self.training and conf.item() > 0.5:
-                return pred, idx, self.cost[idx]
+            if not self.disable_ee_forward:
+                pred, conf = exitblock(x)
+                if not self.training and conf.item() > 0.5:
+                    return pred, idx, self.cost[idx]
+            else:
+                pred = 0
+                conf = 0
             preds.append(pred)
             confs.append(conf)
 
@@ -327,57 +335,57 @@ class EENet(nn.Module):
 
         return preds, confs, self.cost
 
-def eenet18(**kwargs):
+def eenet18(ee_disable=False, **kwargs):
     """EENet-18 model"""
     model = EENet(is_6n2model=False, block=BasicBlock, total_layers=18,
-                  repetitions=[2, 2, 2, 2], **kwargs)
+                  repetitions=[2, 2, 2, 2], disable_ee_forward=ee_disable, **kwargs)
     return model
 
-def eenet34(**kwargs):
+def eenet34(ee_disable=False, **kwargs):
     """EENet-34 model"""
     model = EENet(is_6n2model=False, block=BasicBlock, total_layers=34,
-                  repetitions=[3, 4, 6, 3], **kwargs)
+                  repetitions=[3, 4, 6, 3], disable_ee_forward=ee_disable, **kwargs)
     return model
 
-def eenet50(**kwargs):
+def eenet50(ee_disable=False, **kwargs):
     """EENet-50 model"""
     model = EENet(is_6n2model=False, block=Bottleneck, total_layers=50,
-                  repetitions=[3, 4, 6, 3], **kwargs)
+                  repetitions=[3, 4, 6, 3], disable_ee_forward=ee_disable, **kwargs)
     return model
 
-def eenet101(**kwargs):
+def eenet101(ee_disable=False, **kwargs):
     """EENet-101 model"""
     model = EENet(is_6n2model=False, block=Bottleneck, total_layers=101,
-                  repetitions=[3, 4, 23, 3], **kwargs)
+                  repetitions=[3, 4, 23, 3], disable_ee_forward=ee_disable, **kwargs)
     return model
 
-def eenet152(**kwargs):
+def eenet152(ee_disable=False, **kwargs):
     """EENet-152 model"""
     model = EENet(is_6n2model=False, block=Bottleneck, total_layers=152,
-                  repetitions=[3, 8, 36, 3], **kwargs)
+                  repetitions=[3, 8, 36, 3], disable_ee_forward=ee_disable, **kwargs)
     return model
 
-def eenet20(**kwargs):
+def eenet20(ee_disable=False, **kwargs):
     """EENet-20 model"""
-    model = EENet(True, BasicBlock, 20, **kwargs)
+    model = EENet(True, BasicBlock, 20, disable_ee_forward=ee_disable, **kwargs)
     return model
 
-def eenet32(**kwargs):
+def eenet32(ee_disable=False, **kwargs):
     """EENet-32 model"""
-    model = EENet(True, BasicBlock, 32, **kwargs)
+    model = EENet(True, BasicBlock, 32, disable_ee_forward=ee_disable, **kwargs)
     return model
 
-def eenet44(**kwargs):
+def eenet44(ee_disable=False, **kwargs):
     """EENet-44 model"""
-    model = EENet(True, BasicBlock, 44, **kwargs)
+    model = EENet(True, BasicBlock, 44, disable_ee_forward=ee_disable, **kwargs)
     return model
 
-def eenet56(**kwargs):
+def eenet56(ee_disable=False, **kwargs):
     """EENet-56 model"""
-    model = EENet(True, BasicBlock, 56, **kwargs)
+    model = EENet(True, BasicBlock, 56, disable_ee_forward=ee_disable, **kwargs)
     return model
 
-def eenet110(**kwargs):
+def eenet110(ee_disable=False, **kwargs):
     """EENet-110 model"""
-    model = EENet(True, BasicBlock, 110, **kwargs)
+    model = EENet(True, BasicBlock, 110, disable_ee_forward=ee_disable, **kwargs)
     return model
