@@ -19,7 +19,7 @@ from custom_eenet import CustomEENet
 
 local_args_pre = \
     ['--dataset', 'cifar10',
-      '--model', 'eenet18',
+      '--model', 'eenet20',
       '--epochs', '100',
       '--num-ee', '3',
       '--filters', '4',
@@ -36,7 +36,7 @@ local_args_post = \
       '--epochs', '50',
       '--num-ee', '3',
       '--filters', '4',
-      '--lambda-coef', '1.6',
+      '--lambda-coef', '1.7',
       '--optimizer', 'Adam',
       '--load-model', 'models/cifar10/eenet20/ee3_fine_empty_branches/model.pt',
       '--use-main-targets',
