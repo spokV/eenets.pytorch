@@ -19,7 +19,7 @@ from custom_eenet import CustomEENet
 
 local_args_pre = \
     ['--dataset', 'cifar10',
-      '--model', 'eenet20',
+      '--model', 'eenet18',
       '--epochs', '100',
       '--num-ee', '3',
       '--filters', '4',
@@ -33,16 +33,16 @@ local_args_pre = \
 local_args_post = \
     ['--dataset', 'cifar10',
       '--model', 'eenet20',
-      '--epochs', '100',
+      '--epochs', '50',
       '--num-ee', '3',
       '--filters', '4',
-      '--lambda-coef', '0.5',
+      '--lambda-coef', '1.6',
       '--optimizer', 'Adam',
       '--load-model', 'models/cifar10/eenet20/ee3_fine_empty_branches/model.pt',
-      '--use-main-targets'
+      '--use-main-targets',
       # '--ee-disable', 'False'
       # '--plot-history',
-      # '--no-save-model'
+      '--no-save-model'
       ]
 
 post_train = True
@@ -226,6 +226,8 @@ def main():
             model_post.set_ee_disable(False)
             for idx, exitblock in enumerate(model_post.exits):
                 model_post.stages[idx].requires_grad_(False)
+                model_post.exits.requires_grad_(True)
+
             model_post.stages[-1].requires_grad_(False)
             model_post.fully_connected.requires_grad_(False)
     
