@@ -36,7 +36,7 @@ local_args_post = \
       '--epochs', '50',
       '--num-ee', '3',
       '--filters', '4',
-      '--lambda-coef', '1.7',
+      '--lambda-coef', '1.8',
       '--optimizer', 'Adam',
       '--load-model', 'models/cifar10/eenet20/ee3_fine_empty_branches/model.pt',
       '--use-main-targets',
