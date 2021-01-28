@@ -1,0 +1,178 @@
+local_args_post = \
+    ['--dataset', 'cifar10',
+      '--model', 'eenet20',
+      '--epochs', '50',
+      '--num-ee', '3',
+      '--filters', '4',
+      '--lambda-coef', '1.9',
+      '--optimizer', 'Adam',
+      '--load-model', 'models/cifar10/eenet20/ee3_fine_empty_branches/model.pt',
+      '--use-main-targets',
+      # '--ee-disable', 'False'
+      # '--plot-history',
+      '--no-save-model'
+      ]
+
+use cuda:  True  device:  cuda
+ee-block-0: flops=5.31 MMac, params=5.32 k, cost-rate=0.13
+ee-block-1: flops=10.13 MMac, params=9.99 k, cost-rate=0.24
+ee-block-2: flops=14.94 MMac, params=14.67 k, cost-rate=0.36
+exit-block: flops=41.41 MMac, params=272.47 k, cost-rate=1.00
+Files already downloaded and verified
+Files already downloaded and verified
+  1: Train avg loss: 7.5026
+     Test avg time: 0.3143msec; avg val_loss: 2.9734; avg val_acc: 83.71%
+        avg val_cost: 99.88%; exits: <14,0,0,9986,>
+  2: Train avg loss: 7.4395
+     Test avg time: 0.2844msec; avg val_loss: 2.8509; avg val_acc: 76.88%
+        avg val_cost: 88.79%; exits: <1286,0,0,8714,>
+  3: Train avg loss: 7.4112
+     Test avg time: 0.2838msec; avg val_loss: 2.7926; avg val_acc: 77.55%
+        avg val_cost: 88.16%; exits: <1358,0,0,8642,>
+  4: Train avg loss: 7.3866
+     Test avg time: 0.2689msec; avg val_loss: 2.8481; avg val_acc: 77.13%
+        avg val_cost: 87.35%; exits: <1451,0,0,8549,>
+  5: Train avg loss: 7.3683
+     Test avg time: 0.2729msec; avg val_loss: 2.8209; avg val_acc: 77.07%
+        avg val_cost: 87.52%; exits: <1422,4,8,8566,>
+  6: Train avg loss: 7.3543
+     Test avg time: 0.2678msec; avg val_loss: 2.8172; avg val_acc: 74.20%
+        avg val_cost: 83.34%; exits: <1846,36,46,8072,>
+  7: Train avg loss: 7.3441
+     Test avg time: 0.2642msec; avg val_loss: 2.8622; avg val_acc: 74.43%
+        avg val_cost: 83.34%; exits: <1760,53,144,8043,>
+  8: Train avg loss: 7.3358
+     Test avg time: 0.2666msec; avg val_loss: 2.8029; avg val_acc: 74.31%
+        avg val_cost: 81.70%; exits: <1781,107,308,7804,>
+  9: Train avg loss: 7.3217
+     Test avg time: 0.2712msec; avg val_loss: 2.8742; avg val_acc: 72.95%
+        avg val_cost: 79.74%; exits: <1671,185,672,7472,>
+ 10: Train avg loss: 7.3191
+     Test avg time: 0.2665msec; avg val_loss: 2.9075; avg val_acc: 72.62%
+        avg val_cost: 80.33%; exits: <1544,160,783,7513,>
+ 11: Train avg loss: 7.3087
+     Test avg time: 0.2520msec; avg val_loss: 2.8823; avg val_acc: 70.90%
+        avg val_cost: 76.36%; exits: <1696,149,1210,6945,>
+ 12: Train avg loss: 7.2989
+     Test avg time: 0.2398msec; avg val_loss: 2.9408; avg val_acc: 67.26%
+        avg val_cost: 71.11%; exits: <1840,194,1781,6185,>
+ 13: Train avg loss: 7.2928
+     Test avg time: 0.2365msec; avg val_loss: 2.9987; avg val_acc: 66.61%
+        avg val_cost: 70.06%; exits: <1631,223,2196,5950,>
+ 14: Train avg loss: 7.2970
+     Test avg time: 0.2438msec; avg val_loss: 3.0096; avg val_acc: 65.70%
+        avg val_cost: 68.96%; exits: <1749,212,2221,5818,>
+ 15: Train avg loss: 7.2877
+     Test avg time: 0.2382msec; avg val_loss: 3.0712; avg val_acc: 65.91%
+        avg val_cost: 69.68%; exits: <1470,254,2439,5837,>
+ 16: Train avg loss: 7.2840
+     Test avg time: 0.2431msec; avg val_loss: 3.0304; avg val_acc: 66.92%
+        avg val_cost: 70.11%; exits: <1437,350,2303,5910,>
+ 17: Train avg loss: 7.2790
+     Test avg time: 0.2317msec; avg val_loss: 3.0898; avg val_acc: 63.91%
+        avg val_cost: 66.72%; exits: <1853,263,2369,5515,>
+ 18: Train avg loss: 7.2755
+     Test avg time: 0.2292msec; avg val_loss: 3.1279; avg val_acc: 63.67%
+        avg val_cost: 66.92%; exits: <1614,210,2726,5450,>
+ 19: Train avg loss: 7.2766
+     Test avg time: 0.2272msec; avg val_loss: 3.1923; avg val_acc: 62.44%
+        avg val_cost: 65.19%; exits: <1447,262,3163,5128,>
+ 20: Train avg loss: 7.2714
+     Test avg time: 0.2390msec; avg val_loss: 3.1380; avg val_acc: 65.13%
+        avg val_cost: 68.07%; exits: <1321,387,2736,5556,>
+ 21: Train avg loss: 7.2695
+     Test avg time: 0.2236msec; avg val_loss: 3.2520; avg val_acc: 61.07%
+        avg val_cost: 63.33%; exits: <1528,247,3361,4864,>
+ 22: Train avg loss: 7.2686
+     Test avg time: 0.2237msec; avg val_loss: 3.1052; avg val_acc: 62.18%
+        avg val_cost: 63.46%; exits: <1932,299,2728,5041,>
+ 23: Train avg loss: 7.2662
+     Test avg time: 0.2362msec; avg val_loss: 3.1751; avg val_acc: 62.75%
+        avg val_cost: 64.36%; exits: <1541,450,2943,5066,>
+ 24: Train avg loss: 7.2628
+     Test avg time: 0.2162msec; avg val_loss: 3.2899; avg val_acc: 59.50%
+        avg val_cost: 60.43%; exits: <1574,391,3582,4453,>
+ 25: Train avg loss: 7.2634
+     Test avg time: 0.2082msec; avg val_loss: 3.3197; avg val_acc: 58.05%
+        avg val_cost: 58.26%; exits: <1878,278,3640,4204,>
+ 26: Train avg loss: 7.2618
+     Test avg time: 0.2078msec; avg val_loss: 3.2171; avg val_acc: 58.38%
+        avg val_cost: 59.29%; exits: <2078,246,3245,4431,>
+ 27: Train avg loss: 7.2608
+     Test avg time: 0.2097msec; avg val_loss: 3.2506; avg val_acc: 59.34%
+        avg val_cost: 59.72%; exits: <1918,498,3097,4487,>
+ 28: Train avg loss: 7.2597
+     Test avg time: 0.2158msec; avg val_loss: 3.2607; avg val_acc: 61.78%
+        avg val_cost: 62.95%; exits: <1568,419,3163,4850,>
+ 29: Train avg loss: 7.2550
+     Test avg time: 0.2160msec; avg val_loss: 3.2843; avg val_acc: 60.04%
+        avg val_cost: 61.37%; exits: <1710,325,3327,4638,>
+ 30: Train avg loss: 7.2585
+     Test avg time: 0.2079msec; avg val_loss: 3.3094; avg val_acc: 59.48%
+        avg val_cost: 60.37%; exits: <1728,478,3279,4515,>
+ 31: Train avg loss: 7.2530
+     Test avg time: 0.1995msec; avg val_loss: 3.4828; avg val_acc: 56.24%
+        avg val_cost: 56.90%; exits: <1552,570,3952,3926,>
+ 32: Train avg loss: 7.2521
+     Test avg time: 0.2037msec; avg val_loss: 3.2757; avg val_acc: 59.06%
+        avg val_cost: 59.19%; exits: <1886,491,3233,4390,>
+ 33: Train avg loss: 7.2535
+     Test avg time: 0.1999msec; avg val_loss: 3.3363; avg val_acc: 57.63%
+        avg val_cost: 58.26%; exits: <1853,395,3537,4215,>
+ 34: Train avg loss: 7.2550
+     Test avg time: 0.2047msec; avg val_loss: 3.3638; avg val_acc: 58.83%
+        avg val_cost: 59.69%; exits: <1692,469,3445,4394,>
+ 35: Train avg loss: 7.2508
+     Test avg time: 0.2001msec; avg val_loss: 3.4106; avg val_acc: 56.54%
+        avg val_cost: 57.14%; exits: <1911,393,3634,4062,>
+ 36: Train avg loss: 7.2525
+     Test avg time: 0.2157msec; avg val_loss: 3.2360; avg val_acc: 61.74%
+        avg val_cost: 62.71%; exits: <1721,689,2673,4917,>
+ 37: Train avg loss: 7.2511
+     Test avg time: 0.2143msec; avg val_loss: 3.3350; avg val_acc: 59.09%
+        avg val_cost: 59.61%; exits: <1722,438,3453,4387,>
+ 38: Train avg loss: 7.2474
+     Test avg time: 0.2143msec; avg val_loss: 3.2652; avg val_acc: 60.04%
+        avg val_cost: 60.47%; exits: <1896,476,3036,4592,>
+ 39: Train avg loss: 7.2492
+     Test avg time: 0.2106msec; avg val_loss: 3.3940; avg val_acc: 58.40%
+        avg val_cost: 58.52%; exits: <1715,689,3336,4260,>
+ 40: Train avg loss: 7.2504
+     Test avg time: 0.2026msec; avg val_loss: 3.3276; avg val_acc: 59.02%
+        avg val_cost: 60.04%; exits: <1701,415,3441,4443,>
+ 41: Train avg loss: 7.2462
+     Test avg time: 0.2067msec; avg val_loss: 3.3825; avg val_acc: 57.95%
+        avg val_cost: 57.84%; exits: <1808,486,3556,4150,>
+ 42: Train avg loss: 7.2471
+     Test avg time: 0.2023msec; avg val_loss: 3.4679; avg val_acc: 57.48%
+        avg val_cost: 58.10%; exits: <1532,580,3781,4107,>
+ 43: Train avg loss: 7.2473
+     Test avg time: 0.1958msec; avg val_loss: 3.4409; avg val_acc: 57.24%
+        avg val_cost: 57.71%; exits: <1645,557,3714,4084,>
+ 44: Train avg loss: 7.2478
+     Test avg time: 0.2023msec; avg val_loss: 3.2925; avg val_acc: 59.37%
+        avg val_cost: 60.07%; exits: <1806,599,3076,4519,>
+ 45: Train avg loss: 7.2461
+     Test avg time: 0.2097msec; avg val_loss: 3.3900; avg val_acc: 58.41%
+        avg val_cost: 58.83%; exits: <1637,762,3308,4293,>
+ 46: Train avg loss: 7.2467
+     Test avg time: 0.2006msec; avg val_loss: 3.4831; avg val_acc: 57.01%
+        avg val_cost: 57.45%; exits: <1628,663,3653,4056,>
+ 47: Train avg loss: 7.2468
+     Test avg time: 0.2009msec; avg val_loss: 3.3736; avg val_acc: 56.75%
+        avg val_cost: 56.94%; exits: <1928,647,3342,4083,>
+ 48: Train avg loss: 7.2475
+     Test avg time: 0.1993msec; avg val_loss: 3.4375; avg val_acc: 56.17%
+        avg val_cost: 56.50%; exits: <1788,626,3628,3958,>
+ 49: Train avg loss: 7.2436
+     Test avg time: 0.2058msec; avg val_loss: 3.5111; avg val_acc: 56.75%
+        avg val_cost: 56.50%; exits: <1660,700,3715,3925,>
+ 50: Train avg loss: 7.2449
+     Test avg time: 0.2338msec; avg val_loss: 3.3714; avg val_acc: 58.94%
+        avg val_cost: 58.84%; exits: <1750,686,3242,4322,>
+
+The best avg val_loss: 2.7926, avg val_cost: 88.16%, avg val_acc: 77.55%
+
+The figure is plotted under '../results/cifar10/eenet20/ee3_fine/loss_figure.png'
+The figure is plotted under '../results/cifar10/eenet20/ee3_fine/acc_cost_figure.png'
+The figure is plotted under '../results/cifar10/eenet20/ee3_fine/acc_vs_flop_figure.png'
