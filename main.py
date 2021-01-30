@@ -18,7 +18,7 @@ from eenet import EENet
 from custom_eenet import CustomEENet
 
 local_args_pre = \
-    ['--dataset', 'svhn',
+    ['--dataset', 'tiny-imagenet',
       '--model', 'eenet20',
       '--epochs', '100',
       '--num-ee', '3',
@@ -31,22 +31,22 @@ local_args_pre = \
       ]
 
 local_args_post = \
-    ['--dataset', 'cifar10',
+    ['--dataset', 'svhn',
       '--model', 'eenet20',
       '--epochs', '35',
       '--num-ee', '3',
       '--filters', '4',
-      '--lambda-coef', '2.0',
+      '--lambda-coef', '2.5',
       '--optimizer', 'Adam',
-      '--load-model', 'models/cifar10/eenet20/ee3_fine_empty_branches/model.pt',
+      '--load-model', 'models/svhn/eenet20/ee3_fine_empty_branches/model.pt',
       '--use-main-targets',
       # '--ee-disable', 'False'
       # '--plot-history',
       '--no-save-model'
       ]
 
-post_train = False
-pre_train = True
+post_train = True
+pre_train = False
 
 def train(args, model, model_pre, train_loader, optimizer):
     """train the model.
