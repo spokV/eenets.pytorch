@@ -36,7 +36,7 @@ local_args_post = \
       '--epochs', '35',
       '--num-ee', '3',
       '--filters', '4',
-      '--lambda-coef', '2.5',
+      '--lambda-coef', '2.8',
       '--optimizer', 'Adam',
       '--load-model', 'models/svhn/eenet20/ee3_fine_empty_branches/model.pt',
       '--use-main-targets',
